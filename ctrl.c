@@ -207,10 +207,14 @@ void reset_on_exit() { // let fans control themselves automatically in case of p
 int main() {
   if (signal(SIGINT, reset_on_exit) == SIG_ERR) { // CATCHING SIGINT
     printf("\ncan't catch SIGINT\n");
+    set_fanmode(fan_auto);
+    exit(FAIL_CODE);
   }
 
   if (signal(SIGTERM, reset_on_exit) == SIG_ERR) { // CATCHING SIGTERM
     printf("\ncan't catch SIGTERM\n");
+    set_fanmode(fan_auto);
+    exit(FAIL_CODE);
   }
 
   check_for_sudo(); // check for sudo priveleges.
