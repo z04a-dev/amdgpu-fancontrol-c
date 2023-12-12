@@ -23,8 +23,8 @@ const int SLEEP_INTERVAL = 1; // in s
 int temp_at_last_pwm_change;
 
 // HARDCODED VALUES. DEBUG ONLY. REMOVE IN FINAL VERSION.
-const int TEMPS[] = {30000, 45000, 55000, 67000, 75000};
-const int PWMS[] = {56, 100, 125, 169, 255};
+const int TEMPS[] = {30000, 45000, 55000, 67000, 70000, 75000};
+const int PWMS[] = {62, 76, 100, 125, 188, 255};
 // HARDCODED
 
 //HWMON IDENTIFIES THROUGH find_hwmon(), BUT CARD NUMBER IS STILL HARDCODED.
@@ -101,6 +101,7 @@ void check_for_sudo() { // speaks for itself
   uid_t uid = getuid(), euid = geteuid();
   if (!(uid == 0)) {
     printf("%s\n", "Writing to sysfs requires privileges, relaunch as root");
+    exit(FAIL_CODE);
   }
 }
 
@@ -133,7 +134,7 @@ void set_pwm(int new_pwm, int current_temp, int current_junc, int avg_temp,
 
   printf("current pwm is: %d, requested pwm: %d\n", old_pwm, new_pwm);
 
-  if (current_temp >= temp_at_last_pwm_change ||
+  if (avg_temp >= temp_at_last_pwm_change ||
       (avg_temp + HYSTERESIS) <= temp_at_last_pwm_change || fan_change) {
     printf("temp at last change was: %d\n", temp_at_last_pwm_change);
     printf("changing pwm to: %d\n", new_pwm);
@@ -216,9 +217,8 @@ int main() {
   find_hwmon();     // check if all files present.
   temp_at_last_pwm_change = get_info(FILE_PWM);
   set_fanmode(fan_manual);
-
+  
   while (true) {
-    system("clear");
     interpolate_pwm(values_equality());
     sleep(SLEEP_INTERVAL);
   }
