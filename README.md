@@ -1,4 +1,4 @@
-**amdgpu-fancontrol by grmat, rewritten in C.**
+**[amdgpu-fancontrol by grmat](https://github.com/grmat/amdgpu-fancontrol), rewritten in C.**
 **by z04a**
 
 Please be warned - code is very bad, but it works!
