@@ -1,6 +1,8 @@
 **amdgpu-fancontrol by grmat, rewritten in C.**
 **by z04a**
 
+Please be warned - code is very bad, but it works!
+
 # Dependencies
 **None**
 
@@ -9,7 +11,7 @@
 ```
 git clone https://github.com/ZealanPro/amdgpu-fancontrol-c
 cd amdgpu-fancontrol-c
-gcc ctrl.c -o fancontrol
+make
 ```
 
 # TODO
